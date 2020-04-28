@@ -1,11 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <ProjectReference Include="..\Arcus.Security.All\Arcus.Security.All.csproj" />
+    <PackageReference Include="Arcus.Security.Core" Version="1.1.0" />
+    <PackageReference Include="Arcus.Security.Providers.AzureKeyVault" Version="1.1.0" />
   </ItemGroup>
 
 
