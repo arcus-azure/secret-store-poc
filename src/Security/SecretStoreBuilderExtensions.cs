@@ -14,7 +14,7 @@ namespace Arcus.Security.Startup.Security
 
         public static SecretStoreBuilder AddEnvironmentVariableProvider(this SecretStoreBuilder builder)
         {
-            System.Environment.GetEnvironmentVariables();
+            return builder.AddProvider(new EnvironmentVariableSecretProvider());
         }
     }
 }
