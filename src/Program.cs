@@ -30,10 +30,10 @@ namespace Arcus.Security.Startup
                 })
                 .ConfigureSecretStore((context, config, builder) =>
                 {
-                    builder.AddProvider(new InMemorySecretProvider(new Dictionary<string, Secret>
+                    builder.AddInMemoryProvider(new Dictionary<string, Secret>
                     {
                         ["OtherSecret"] = new Secret("1234", "lkj23-23 2-adsf-")
-                    }));
+                    });
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
