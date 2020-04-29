@@ -21,9 +21,9 @@ namespace Arcus.Security.Startup.Security
 
         public static SecretStoreBuilder AddAzureKeyVaultProviderWithCertificate(
             this SecretStoreBuilder builder,
+            string rawVaultUri,
             string clientId,
-            X509Certificate2 certificate,
-            string rawVaultUri)
+            X509Certificate2 certificate)
         {
             return AddAzureKeyVaultProvider(
                 builder,
@@ -45,9 +45,9 @@ namespace Arcus.Security.Startup.Security
 
         public static SecretStoreBuilder AddAzureKeyVaultProviderWithServicePrincipal(
             this SecretStoreBuilder builder,
+            string rawVaultUri,
             string clientId,
-            string clientKey,
-            string rawVaultUri)
+            string clientKey)
         {
             return AddAzureKeyVaultProvider(
                 builder,
