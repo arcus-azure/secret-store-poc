@@ -1,12 +1,10 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Arcus.Security.Core;
+using Arcus.Security.Providers.AzureKeyVault.Authentication;
+using Arcus.Security.Providers.AzureKeyVault.Configuration;
+using Arcus.Security.Startup.Security;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Arcus.Security.Startup
 {
@@ -21,17 +19,21 @@ namespace Arcus.Security.Startup
             Host.CreateDefaultBuilder(args)
                 .ConfigureSecretStore((context, config, builder) =>
                 {
-                    builder.AddProvider(new InMemorySecretProvider(new Dictionary<string, Secret>
-                    {
-                        ["MySecret"] = new Secret("123", "122asad-AD3-SDAF3223")
-                    }));
+                    builder.AddEnvironmentVariableProvider()
+                           .AddAzureKeyVaultProvider(
+                               new ServicePrincipalAuthentication("client-id", "client-key"),
+                               new KeyVaultConfiguration("raw-vault-uri"))
+                           .AddProvider(new InMemorySecretProvider(new Dictionary<string, Secret>
+                           {
+                               ["MySecret"] = new Secret("123", "122asad-AD3-SDAF3223")
+                           }));
                 })
                 .ConfigureSecretStore((context, config, builder) =>
                 {
-                    builder.AddProvider(new InMemorySecretProvider(new Dictionary<string, Secret>
+                    builder.AddInMemoryProvider(new Dictionary<string, Secret>
                     {
                         ["OtherSecret"] = new Secret("1234", "lkj23-23 2-adsf-")
-                    }));
+                    });
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
