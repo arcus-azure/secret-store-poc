@@ -29,7 +29,7 @@ namespace Arcus.Security.Startup.Controllers
         [HttpGet]
         public async Task<IEnumerable<WeatherForecast>> Get()
         {
-            string secret = await _secretProvider.GetRawSecretAsync("MySecret");
+            string secret = await _secretProvider.GetRawSecretAsync("Logging:LogLevel:Default");
 
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

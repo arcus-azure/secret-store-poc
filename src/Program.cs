@@ -19,10 +19,11 @@ namespace Arcus.Security.Startup
             Host.CreateDefaultBuilder(args)
                 .ConfigureSecretStore((context, config, builder) =>
                 {
-                    builder.AddEnvironmentVariableProvider()
-                           .AddAzureKeyVaultProvider(
+                    builder.AddJsonFileSecrets("appsettings.Development.json")
+                           .AddEnvironmentVariableSecrets()
+                           .AddAzureKeyVaultSecrets(
                                new ServicePrincipalAuthentication("client-id", "client-key"),
-                               new KeyVaultConfiguration("raw-vault-uri"))
+                               new KeyVaultConfiguration("https://raw-vault-uri"))
                            .AddProvider(new InMemorySecretProvider(new Dictionary<string, Secret>
                            {
                                ["MySecret"] = new Secret("123", "122asad-AD3-SDAF3223")
@@ -30,7 +31,7 @@ namespace Arcus.Security.Startup
                 })
                 .ConfigureSecretStore((context, config, builder) =>
                 {
-                    builder.AddInMemoryProvider(new Dictionary<string, Secret>
+                    builder.AddInMemorySecrets(new Dictionary<string, Secret>
                     {
                         ["OtherSecret"] = new Secret("1234", "lkj23-23 2-adsf-")
                     });

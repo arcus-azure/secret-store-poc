@@ -2,7 +2,8 @@
 using Arcus.Security.Startup.Security;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.Hosting {
+namespace Microsoft.Extensions.Hosting 
+{
     public class SecretStoreBuilder
     {
         public SecretStoreBuilder(IServiceCollection services)
