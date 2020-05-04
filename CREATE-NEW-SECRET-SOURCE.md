@@ -16,7 +16,7 @@ public class Program
             Host.CreateDefaultBuilder(args)
                 .ConfigureSecretStore((context, config, builder) =>
                 {
-                    builder.AddEnvironmentVariableProvider();
+                    builder.AddEnvironmentVariables();
                 })
                 .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
     }
@@ -55,7 +55,7 @@ This section describes how a new secret store source can be added to the pipelin
    ```csharp
     public static class SecretStoreBuilderExtensions
     {
-        public static SecretStoreBuilder AddInMemoryProvider(this SecretStoreBuilder builder)
+        public static SecretStoreBuilder AddInMemory(this SecretStoreBuilder builder)
         {
             var provider = new InMemorySecretProvider();
             return builder.AddProvider(provider);
