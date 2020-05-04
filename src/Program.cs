@@ -20,7 +20,8 @@ namespace Arcus.Security.Startup
             Host.CreateDefaultBuilder(args)
                 .ConfigureHostConfiguration(configBuilder =>
                 {
-                    configBuilder.AddJsonFile("appsettings.Development.json");
+                    configBuilder.AddJsonFile("appsettings.Development.json")
+                                 .AddJsonFile("appsettings.json");
                 })
                 .ConfigureSecretStore((context, config, builder) =>
                 {
