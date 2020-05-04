@@ -1,5 +1,6 @@
 ﻿using Arcus.Security.Core;
 using Arcus.Security.Startup.Security;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Extensions.Hosting 

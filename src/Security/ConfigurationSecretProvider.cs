@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Arcus.Security.Core;
+using GuardNet;
 using Microsoft.Extensions.Configuration;
 
 namespace Arcus.Security.Startup.Security
 {
-    public class JsonFileSecretProvider : ISecretProvider
+    public class ConfigurationSecretProvider : ISecretProvider
     {
-        private readonly Lazy<IConfigurationRoot> _configuration;
+        private readonly IConfiguration _configuration;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JsonFileSecretProvider"/> class.
+        /// Initializes a new instance of the <see cref="ConfigurationSecretProvider"/> class.
         /// </summary>
-        public JsonFileSecretProvider(string jsonFile, bool optional, bool reloadOnChange)
+        public ConfigurationSecretProvider(IConfiguration configuration)
         {
-            _configuration = new Lazy<IConfigurationRoot>(
-                () => new ConfigurationBuilder()
-                      .AddJsonFile(jsonFile, optional, reloadOnChange)
-                      .Build());
+            Guard.NotNull(configuration, nameof(configuration));
+            _configuration = configuration;
         }
 
         /// <summary>Retrieves the secret value, based on the given name</summary>
@@ -42,7 +41,7 @@ namespace Arcus.Security.Startup.Security
         /// <exception cref="T:Arcus.Security.Core.SecretNotFoundException">The secret was not found, using the given name</exception>
         public Task<string> GetRawSecretAsync(string secretName)
         {
-            var secretValue = _configuration.Value.GetValue<string>(secretName);
+            var secretValue = _configuration.GetValue<string>(secretName);
             return Task.FromResult(secretValue);
         }
     }

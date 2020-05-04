@@ -4,6 +4,7 @@ using Arcus.Security.Providers.AzureKeyVault.Authentication;
 using Arcus.Security.Providers.AzureKeyVault.Configuration;
 using Arcus.Security.Startup.Security;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace Arcus.Security.Startup
@@ -17,11 +18,15 @@ namespace Arcus.Security.Startup
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureHostConfiguration(configBuilder =>
+                {
+                    configBuilder.AddJsonFile("appsettings.Development.json");
+                })
                 .ConfigureSecretStore((context, config, builder) =>
                 {
-                    builder.AddJsonFileSecrets("appsettings.Development.json")
-                           .AddEnvironmentVariableSecrets()
-                           .AddAzureKeyVaultSecrets(
+                    builder.AddConfiguration(config)
+                           .AddEnvironmentVariables()
+                           .AddAzureKeyVault(
                                new ServicePrincipalAuthentication("client-id", "client-key"),
                                new KeyVaultConfiguration("https://raw-vault-uri"))
                            .AddProvider(new InMemorySecretProvider(new Dictionary<string, Secret>
@@ -31,7 +36,7 @@ namespace Arcus.Security.Startup
                 })
                 .ConfigureSecretStore((context, config, builder) =>
                 {
-                    builder.AddInMemorySecrets(new Dictionary<string, Secret>
+                    builder.AddInMemory(new Dictionary<string, Secret>
                     {
                         ["OtherSecret"] = new Secret("1234", "lkj23-23 2-adsf-")
                     });
